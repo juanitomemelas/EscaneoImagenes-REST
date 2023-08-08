@@ -1,10 +1,11 @@
 package mx.com.mahonry.escaneo.imagenes.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import mx.com.mahonry.escaneo.imagenes.dao.Imagen;
@@ -19,8 +20,15 @@ public class MainController {
 
 	@GetMapping(path = "/all")
 	public @ResponseBody Iterable<Imagen> getAllUsers() {
-// This returns a JSON or XML with the users
 		return imagenRepository.findAll();
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Imagen> getImagenById(@PathVariable(value = "id") Long imagenId)
+			 throws ResourceNotFoundException {
+			    Imagen imagen= imagenRepository.findById(imagenId)
+			      .orElseThrow(() -> new ResourceNotFoundException("Image not found for this id :: " + imagenId));
+			    return ResponseEntity.ok().body(imagen);
 	}
 
 }

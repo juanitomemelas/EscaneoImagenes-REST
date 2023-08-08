@@ -43,6 +43,10 @@ public class Imagen {
 	public void setRuta(String ruta) {
 		this.ruta = ruta;
 	}
+	public Imagen orElseThrow(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	  
 	
 
